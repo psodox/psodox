@@ -1,0 +1,31 @@
+{
+  "name": "psodox/psodox",
+  "description": "Self-hosted CRM",
+  "type": "project",
+  "license": "GNU General Public License v3.0",
+  "authors": [
+    {
+      "name": "Denny Brandes",
+      "email": "d.brandes@pixel-pro.de"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+    }
+  },
+  "require-dev": {
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "scripts": {
+  }
+}
