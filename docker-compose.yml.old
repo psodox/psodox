@@ -1,0 +1,38 @@
+services:
+      psodox_postgres:
+        container_name: psodox_cloud_development_postgres
+        build:
+          context: build/postgres
+        restart: always
+        environment:
+          POSTGRES_PASSWORD: psodox
+          POSTGRES_USER: psodox
+          POSTGRES_DB: psodox
+
+      psodox_cloud_administration_core:
+        container_name: psodox_cloud_development_administration_core
+        image: psodox_cloud/development/administration/core:latest
+        restart: always
+        build:
+          context: ../containers/development/administration/http
+          args:
+            UID: ${DUID}
+            GID: ${DGID}
+        depends_on:
+          - psodox_cloud_mysql
+        volumes:
+          - ./../../../administration/core:/var/www/administration/core
+        environment:
+          - VIRTUAL_HOST=admin.dev.psodox.cloud
+        networks:
+          cloud_hosting_app_net:
+            ipv4_address: 172.16.243.11
+
+networks:
+  cloud_hosting_app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.243.0/24
+        gateway: 172.16.243.1
