@@ -1,9 +1,17 @@
 services:
   psodox_postgres:
-    container_name: mennen_cloud_development_postgres
+    container_name: psodox_development_postgres
     build:
       context: ../build/postgres
     environment:
       POSTGRES_PASSWORD: psodox
       POSTGRES_USER: psodox
       POSTGRES_DB: psodox
+  psodox_frontend:
+      container_name: psodox_development_frontend
+      build:
+        context: ../build/frontend
+  psodox_api:
+      container_name: psodox_development_api
+      build:
+        context: ../build/api
