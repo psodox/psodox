@@ -12,13 +12,10 @@ services:
       tty: true
       container_name: psodox_api
       build:
-        context: build/api
+        context:  data/Dockerfiles/api
       command: "php-fpm -d date.timezone=${TZ} -d expose_php=0"
       environment:
           - TZ=${TZ}
-
-  nginx-psodox:
-      container_name: psodox_nginx
 
 networks:
   psodox-network:
