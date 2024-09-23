@@ -1,17 +1,32 @@
 services:
-  psodox_postgres:
-    container_name: psodox_development_postgres
+  postgres-psodox:
+    container_name: psodox_postgres
     build:
-      context: ../build/postgres
+      context: data/Dockerfiles/postgres
     environment:
-      POSTGRES_PASSWORD: psodox
-      POSTGRES_USER: psodox
-      POSTGRES_DB: psodox
-  psodox_frontend:
-      container_name: psodox_development_frontend
+      POSTGRES_PASSWORD: ${DBPASS}
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_DB: ${DBNAME}
+
+  api-psodox:
+      tty: true
+      container_name: psodox_api
       build:
-        context: ../build/frontend
-  psodox_api:
-      container_name: psodox_development_api
-      build:
-        context: ../build/api
+        context: build/api
+      command: "php-fpm -d date.timezone=${TZ} -d expose_php=0"
+      environment:
+          - TZ=${TZ}
+
+  nginx-psodox:
+      container_name: psodox_nginx
+
+networks:
+  psodox-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-psodox
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: ${IPV4_NETWORK:-172.22.1}.0/24
